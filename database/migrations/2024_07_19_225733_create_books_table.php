@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('isbn', 64)->nullable();
             $table->text('description')->nullable();
             $table->text('contributor')->nullable();
+            $table->foreignUuid('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
