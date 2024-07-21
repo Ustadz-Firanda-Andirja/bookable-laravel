@@ -25,6 +25,8 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->longText('content')
                 ->nullable();
+            $table->text('footnotes')
+                ->nullable();
             $table->unsignedSmallInteger('sequence')
                 ->default(1);
         });

@@ -14,6 +14,10 @@ class TableOfContent extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'footnotes' => 'json'
+    ];
+
     public function table_of_content()
     {
         return $this->belongsTo(TableOfContent::class);

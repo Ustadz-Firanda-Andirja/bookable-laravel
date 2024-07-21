@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Book;
+namespace App\Http\Resources\TableOfContent;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,9 +14,6 @@ class Read extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'title' => $this->title,
-            'table_of_contents' => TableOfContent::collection($this->table_of_contents),
-        ];
+        return parent::toArray($request);
     }
 }

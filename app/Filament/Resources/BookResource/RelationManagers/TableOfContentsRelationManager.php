@@ -8,7 +8,6 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TableOfContentsRelationManager extends RelationManager
 {
@@ -18,10 +17,26 @@ class TableOfContentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('table_of_content_id')
+                    ->relationship('table_of_content', 'label', function (Builder $query,) {
+                        return $query->where('book_id', parent::getOwnerRecord()->id);
+                    })
+                    ->label('Induk')
+                    ->searchable()
+                    ->preload()
+                    ->columnSpan(2),
+
                 Forms\Components\TextInput::make('label')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('content')->columnSpan(2)
+                    ->maxLength(255)
+                    ->columnSpan(2),
+
+                Forms\Components\RichEditor::make('content')
+                    ->label('Konten (kosongkan jika daftar isi memiliki sub)')
+                    ->columnSpan(2),
+                Forms\Components\KeyValue::make('footnotes')
+                    ->columnSpan(2)
+
             ]);
     }
 
@@ -30,7 +45,9 @@ class TableOfContentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('title')
             ->columns([
+                Tables\Columns\TextColumn::make('table_of_content.label')->label('Induk'),
                 Tables\Columns\TextColumn::make('label'),
+                Tables\Columns\TextInputColumn::make('sequence'),
             ])
             ->filters([
                 //

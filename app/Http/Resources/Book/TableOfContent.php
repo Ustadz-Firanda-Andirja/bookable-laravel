@@ -14,9 +14,12 @@ class TableOfContent extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
+            'id' => $this->id,
             'label' => $this->label,
-            'table_of_contents' => TableOfContent::collection($this->table_of_contents)
+            'table_of_contents' => TableOfContent::collection($this->table_of_contents),
         ];
+
+        return $data;
     }
 }
